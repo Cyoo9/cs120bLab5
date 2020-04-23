@@ -12,72 +12,40 @@
 #include "simAVRHeader.h"
 #endif
 
-unsigned char countOne = 0;
-unsigned char countTwo = 0;
-enum States {Start, Off, WaitUntilThree, Increment, Decrement, Reset} state;
+enum States {Start, on, off} state;
 
 void Tick() {
-	unsigned char temp = ~PINA & 0x03;
 	switch(state) {
 		case Start:
-			PORTC = 0x07;
-			state = Off;
+			PORTC = 0x00;
+			state = off;
 			break;
-		case Off:
-			if(temp == 0x01) {
-				state = Increment;
-				if(PORTC < 0x09) {
-					PORTC++;
-				}
-				break;
-			}
-			else if(temp == 0x02) {
-				state = Decrement;
-				if(PORTC > 0x00) {
-					PORTC--;
-				}
-				break;
-			}
-			else if(temp == 0x03) {
-				PORTC = 0;
-				state = Reset;
-				break;
-			}
-			else {
-				state = Off;
-				break;
-			}
-		case Increment:
-			state = WaitUntilThree;
-			break;
-		case Decrement:
-			state = WaitUntilThree;
-			break;
-		case WaitUntilThree:
-			if(temp == 0x01 || temp == 0x02) {
-				state = WaitUntilThree;
-				break;
-			}
-			else if(temp == 0x03) {
-				state = Reset;
-				PORTC = 0;
-			}
-			else {
-				state = Off;
-				break;
-			}
-		case Reset:
-			if(temp == 0x01 || temp == 0x02) {
-				state = Reset;
-				break;
-			}
-			else {
-				state = Off;
-				break;
-			}
+		case off:
+		   if((~PINA & 0x01) == 0x01) {
+			state = on;
+			if(PORTC == 0x00) { PORTC = 0x01; }
+			else if(PORTC == 0x01) { PORTC = 0x02; }
+			else if(PORTC == 0x02) { PORTC = 0x04; }
+			else if(PORTC == 0x04) { PORTC = 0x08; }
+			else if(PORTC == 0x08) { PORTC = 0x10; }
+			else if(PORTC == 0x10) { PORTC = 0x20; }
+		   }
+		   else {
+			state = off;
+		   }
+		   break;
+		case on:
+		   if((~PINA & 0x01) == 0x01) {
+                   	 if(PORTC == 0x20) { PORTC = 0x00; }
+		  	 state = off;
+		   }
+		   else {
+			 state = on;
+		   }
+		   break;
 		default:
 			break;
-	}
+	}	
 }
 
 
