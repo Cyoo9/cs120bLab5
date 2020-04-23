@@ -16,21 +16,44 @@ enum States {Start, off, on, hold} state;
 
 
 void Tick() {
+	unsigned char temp;
 	switch(state) {
 		case Start:
-			PORTC = 0x00;
+			temp = 0x00;
+			PORTC = temp;
 			state = off;
 			break;
 		case off:
 		   if((~PINA & 0x01) == 0x01) {
 			state = hold;
-			if(PORTC == 0x00) { PORTC = 0x01; }
-			else if(PORTC == 0x01) { PORTC = 0x02; }
-			else if(PORTC == 0x02) { PORTC = 0x04; }
-			else if(PORTC == 0x04) { PORTC = 0x08; }
-			else if(PORTC == 0x08) { PORTC = 0x10; }
-			else if(PORTC == 0x10) { PORTC = 0x20; }
-			else if(PORTC == 0x20) { PORTC = 0x00; }
+			if(PORTC == 0x00) {
+			       	temp = 0x01;
+		       		PORTC = temp;
+			}
+			else if(PORTC == 0x01) { 
+				temp = 0x02;
+				PORTC = temp;
+		       	}
+			else if(PORTC == 0x02) {
+			        temp = 0x04;	
+				PORTC = temp; 
+			}
+			else if(PORTC == 0x04) {
+			       	temp = 0x08;
+		       		PORTC = temp;
+			}
+			else if(PORTC == 0x08) { 
+				temp = 0x10;
+		       		PORTC = temp;
+			}
+			else if(PORTC == 0x10) {
+				temp = 0x20;
+		       		PORTC = temp;
+			}
+			else if(PORTC == 0x20) { 
+				temp = 0x00;
+		       		PORTC = temp;
+			}
 		   }
 		   else {
 			state = off;
