@@ -20,7 +20,7 @@ void Tick() {
 	unsigned char temp = ~PINA & 0x03;
 	switch(state) {
 		case Start:
-			PORTC = 0x07;
+			PORTC = 0x00;
 			state = Off;
 			break;
 		case Off:
