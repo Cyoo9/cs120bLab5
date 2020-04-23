@@ -25,22 +25,22 @@ int main(void) {
 		PORTC = 0x40;
 	}
 	
-	else if(((temp & 0x01) == 1) || ((temp & 0x02) == 2)) { 
+	else if((temp == 1) || (temp == 2)) { 
 		PORTC = 0x60;
 	}
-	else if(((temp & 0x03) == 3) || ((temp & 0x04) == 4)) {
+	else if((temp == 3) || (temp == 4)) {
 		PORTC = 0x70; 
 	}
-	else if(((temp & 0x05) == 5) || ((temp & 0x06) == 6)) {
+	else if((temp == 5) || (temp == 6)) {
 		PORTC = 0x38;
 	}
-	else if(((temp & 0x07) == 7) || ((temp & 0x08) == 8) || ((temp & 0x09) == 9)) {
+	else if((temp  == 7) || (temp == 8) || (temp == 9)) {
 		PORTC = 0x3C;
 	}
-	else if(((temp & 0x0A) == 10) || ((temp & 0x0B) == 11) || ((temp & 0x0C) == 12)) {
+	else if((temp == 10) || (temp == 11) || (temp == 12)) {
 		PORTC = 0x3E;
 	}
-	else if(((temp & 0x0D) == 13) || ((temp & 0x0E) == 14) || ((temp & 0x0F) == 15)) {
+	else if((temp == 13) || (temp == 14) || (temp == 15)) {
 		PORTC = 0x3F;
 	}
 
